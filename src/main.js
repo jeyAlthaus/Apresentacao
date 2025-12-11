@@ -168,7 +168,10 @@ function createPortals() {
     });
 
     const frameOuter = new THREE.Mesh(new THREE.BoxGeometry(3, 5, 0.3), frameMaterial);
-    const frameInner = new THREE.Mesh(new THREE.BoxGeometry(2.4, 4.2, 0.35), new THREE.MeshBasicMaterial({ color: 0x000010 }));
+    const frameInner = new THREE.Mesh(
+      new THREE.BoxGeometry(2.4, 4.2, 0.35),
+      new THREE.MeshBasicMaterial({ color: 0x000010 })
+    );
     frameInner.position.z = -0.02;
 
     // Miolo emissivo
@@ -299,4 +302,3 @@ window.addEventListener('keydown', (event) => {
     canMove = true;
   }
 });
-
