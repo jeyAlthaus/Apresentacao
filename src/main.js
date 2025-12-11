@@ -1,7 +1,7 @@
 // Cena principal em Three.js com personagem, estrelas e portais de projetos
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js';
 import { projects } from './projectsConfig.js';
-import { initUI, showProject, hideProject, updateInteractionHint } from './ui.js';
+import { initUI, showProject, updateInteractionHint } from './ui.js';
 
 // Variáveis principais de Three.js
 let scene, camera, renderer;
@@ -107,11 +107,11 @@ function createStars() {
   starGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
   const starMaterial = new THREE.PointsMaterial({
-    size: 1.4,
+    size: 1.8,
     sizeAttenuation: true,
     vertexColors: true,
     transparent: true,
-    opacity: 0.9
+    opacity: 0.95
   });
 
   const stars = new THREE.Points(starGeometry, starMaterial);
@@ -156,6 +156,7 @@ function createPortals() {
     const portal = new THREE.Group();
     portal.position.set(project.position.x, project.position.y, project.position.z);
     portal.userData.projectId = project.id;
+    portal.userData.baseY = project.position.y;
 
     // Moldura do portal
     const frameMaterial = new THREE.MeshStandardMaterial({
@@ -167,7 +168,10 @@ function createPortals() {
     });
 
     const frameOuter = new THREE.Mesh(new THREE.BoxGeometry(3, 5, 0.3), frameMaterial);
-    const frameInner = new THREE.Mesh(new THREE.BoxGeometry(2.4, 4.2, 0.35), new THREE.MeshBasicMaterial({ color: 0x000010 }));
+    const frameInner = new THREE.Mesh(
+      new THREE.BoxGeometry(2.4, 4.2, 0.35),
+      new THREE.MeshBasicMaterial({ color: 0x000010 })
+    );
     frameInner.position.z = -0.02;
 
     // Miolo emissivo
@@ -232,6 +236,7 @@ function updatePlayer(delta) {
   // Limita área de navegação
   player.position.x = THREE.MathUtils.clamp(player.position.x, -bounds, bounds);
   player.position.z = THREE.MathUtils.clamp(player.position.z, -bounds, bounds);
+  player.position.y = 0; // mantém o personagem flutuando na altura base
 }
 
 // Detecta porta próxima e atualiza feedback de HUD
@@ -263,7 +268,7 @@ function detectActivePortal() {
 function animatePortals(delta) {
   portals.forEach((portal, index) => {
     const float = Math.sin(clock.elapsedTime + index) * 0.05;
-    portal.position.y = float;
+    portal.position.y = portal.userData.baseY + float;
     portal.rotation.y += delta * 0.2;
   });
 }
@@ -297,4 +302,3 @@ window.addEventListener('keydown', (event) => {
     canMove = true;
   }
 });
-
