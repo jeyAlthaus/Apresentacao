@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfólio Interestelar</title>
+    <link rel="stylesheet" href="styles/style.css" />
+  </head>
+  <body>
+    <!-- Título fixo da experiência -->
+    <header id="title">
+      <h1>Portfólio Interestelar</h1>
+      <p>Explore os portais dos projetos pelo espaço</p>
+    </header>
+
+    <!-- HUD com controles e interação -->
+    <section id="hud">
+      <p class="controls">WASD = mover | Mouse = olhar (opcional) | E = interagir | ESC = fechar painel</p>
+      <p id="interaction-hint" class="hint hidden">Aproxime-se de um portal</p>
+    </section>
+
+    <!-- Painel de projeto mostrado ao interagir com um portal -->
+    <div id="project-panel" class="hidden">
+      <div class="panel-content">
+        <button id="close-panel" aria-label="Fechar painel">✕</button>
+        <h2 id="project-title"></h2>
+        <p id="project-description"></p>
+        <div id="project-tags" class="tags"></div>
+        <button id="open-link" class="primary">Abrir no GitHub</button>
+      </div>
+    </div>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
